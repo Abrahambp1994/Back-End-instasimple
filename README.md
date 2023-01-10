@@ -11,7 +11,6 @@ git clone git@github.com:Abrahambp1994/instasimple.git
 > abrir carpeta "instasimple" con Visual Studio
 
 ```
-cd 
 code ./instasimple
 ```
 
