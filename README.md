@@ -1,24 +1,125 @@
 # 2-Proyecto-Hack-a-Boss
 
-TITULO
-App de fotos (clon de Instagram)
+# Quick start 🔥
 
-DESCRIPCIÓN
-Implementar una API que permita publicar fotos (añadiendo o no textos) y que otras personas puedas verlas.
+> hacer clone del repositorio
 
-USUARIOS ANÓNIMOS:
+```
+git clone 
+```
 
-- Ver las últimas fotos publicadas por otros usuarios.
-- Ver el perfil de un usuario con su galería de fotos.
-- Buscar fotos (por su texto descriptivo)
-- Login
-- Registro
+> abrir carpeta "instasimple" con Visual Studio
 
-USUARIOS REGISTRADOS PUEDEN ADEMÁS:
+```
+cd 
+code ./instasimple
+```
 
-- Hacer una publicación de una foto (la foto debe ajustarse automáticamente a un tamaño máximo y unas proporciones
-  establecidas por la plataforma). Y añadirle una descripción,
-- Hacer/quitar un "like" a una foto.
-- Opcional:
-  - Gestión del perfil (cambios en los datos del registro)
-  - Comentar una foto (no se permiten comentarios a comentarios)
+> en la terminal del VS (o cualquier terminal en la carpeta instasimple):
+
+```
+npm install
+```
+
+> renombrar el .env.example a .env y rellenad todos los campos con vuestros datos
+
+❗ \_en DATABASE_NAME deberéis poner el nombre de una base de datos que ya tengáis creada en MySQL
+
+> crear la DB
+
+```
+npm run initDb
+```
+
+> introducir datos de prueba en la DB
+
+```
+npm run populateDb
+```
+
+> una vez hecho todo esto, solo quedaría iniciar el server
+
+```
+node src/server.js
+```
+
+# Base de datos 💾
+
+## Tablas
+
+users
+
+- id
+- email \*
+- password \*
+- name \*
+
+posts
+
+- id
+- title \*
+- description \*
+- userId \*
+- image \*
+
+likes
+
+- id
+- image \*
+- postId \*
+
+# API 📚
+
+//USUARIOS ANÓNIMOS
+
+- GET /posts
+
+  - Responde con las últimas fotos publicadas por otros usuarios.
+
+- GET /users/:id
+
+  - Responde con el perfil del usuario con su galería de fotos
+
+  - Body (form-data):
+    - title \*
+    - description \*
+    - images
+  - Responde con los datos del post creado, incluídas las imágenes
+
+- GET /posts
+
+  - Devuelve fotos relacionadas con el texto descriptivo introducido.
+
+- POST /login
+
+  - Body (JSON):
+
+    - email \*
+    - password \*
+
+    - Responde con un token para el usuario
+
+- POST /users
+
+  - Body (JSON):
+    - email \*
+    - password \*
+    - name \*
+  - Responde con los datos del usuario creado
+
+//USARIOS REGISTRADOS
+
+- POST /posts
+
+  - Se necesita autenticación del usuario
+
+  - Crea una publicación introduciendo los siguientes valores en el body (form-data):
+  
+    - image \*
+      -description \*
+
+- POST /posts/:id/like
+
+  - Alterna dar/quitar like al post indicado en el param "id"
+
+  - Responde indicando si se ha dado o quitado el like
